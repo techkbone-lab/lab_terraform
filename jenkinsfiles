@@ -13,7 +13,7 @@ pipeline {
                 echo "Préparation de l'environnement Terraform"
                 git branch: env.BRANCH_NAME,
                 credentialsId: 'jenkins-github',
-                url: 'https://github.com/kevinbouchard6/aws.git'
+                url: 'https://github.com/techonekb/lab-terraform.git'
             }
         }
         stage('Déploiement') {
