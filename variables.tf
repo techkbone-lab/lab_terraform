@@ -131,7 +131,6 @@ variable "vm_params" {
 #   }))
 #   default = {
 #     default = {
-     
 #     }
 #   }
 # }
