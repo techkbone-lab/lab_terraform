@@ -1,0 +1,14 @@
+---
+    portainer_url: "https://192.168.1.51:9443/api"
+    portainer_username: "admin"
+    portainer_password: "Tracteur1assis1"
+    docker_hosts:
+      - name: "dock-01"
+        endpoint_name: "dock-02"
+        endpoint_url: "tcp://192.168.1.245:9001"
+      - name: "dock-02"
+        endpoint_name: "dock-02"
+        endpoint_url: "tcp://192.168.1.246:9001"
+      - name: "dock-03"
+        endpoint_name: "dock-03"
+        endpoint_url: "tcp://192.168.1.247:9001"

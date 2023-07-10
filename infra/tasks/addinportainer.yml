@@ -1,0 +1,38 @@
+---
+    - name: Login to Portainer
+      uri:
+        url: "{{ portainer_url }}/auth"
+        method: POST
+        body_format: json
+        body:
+          username: "{{ portainer_username }}"
+          password: "{{ portainer_password }}"
+        validate_certs: false
+      register: login_result
+      ignore_errors: yes
+
+    - name: Get Portainer endpoint groups
+      uri:
+        url: "{{ portainer_url }}/endpoints/groups"
+        method: GET
+        headers:
+          Authorization: "Bearer {{ login_result.json.jwt }}"
+        validate_certs: false
+      register: endpoint_groups
+
+    - name: Create Docker endpoints
+      uri:
+        url: "{{ portainer_url }}/endpoints"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ login_result.json.jwt }}"
+        body_format: json
+        body:
+          Name: "{{ item.name }}"
+          Type: 1
+          URL: "{{ item.endpoint_url }}"
+          PublicURL: "{{ item.endpoint_url }}"
+          GroupId: "{{ endpoint_groups.json[0].Id }}"
+        status_code: 201
+        validate_certs: false
+      with_items: "{{ docker_hosts }}"

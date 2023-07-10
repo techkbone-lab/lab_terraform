@@ -1,0 +1,33 @@
+---
+- name: Power on server proxmox PVE01
+  community.general.wakeonlan:
+    mac: '40:b0:34:f9:67:ea'
+    broadcast: 192.0.2.23
+  delegate_to: localhost
+
+- community.general.wakeonlan:
+    mac: 40:b0:34:f9:67:ea
+    port: 1
+  delegate_to: localhost
+
+- name: Power on server proxmox PVE02
+  community.general.wakeonlan:
+    mac: '18:60:24:e3:44:6c'
+    broadcast: 192.0.2.23
+  delegate_to: localhost
+
+- community.general.wakeonlan:
+    mac: 18:60:24:e3:44:6c
+    port: 2
+  delegate_to: localhost
+
+- name: Power on server proxmox PVE03
+  community.general.wakeonlan:
+    mac: '18:60:24:dc:72:2b'
+    broadcast: 192.0.2.23
+  delegate_to: localhost
+
+- community.general.wakeonlan:
+    mac: 18:60:24:dc:72:2b
+    port: 3
+  delegate_to: localhost

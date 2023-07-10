@@ -1,0 +1,12 @@
+---
+# tasks file for infra
+- name: Install Docker
+  include_tasks: configlinux.yml 
+# - name: Deploy Agent Portainer
+#   include_tasks: portaineragent.yml 
+# - name: Add Docker in Portainer
+#   include_tasks: addinportainer.yml
+# - name: PowerOn Servers Proxmox
+#   include_tasks: poweron.yml
+
+

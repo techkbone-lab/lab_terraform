@@ -1,0 +1,15 @@
+---
+- name: Créer le volume pour l'agent Edge
+  community.general.docker_volume:
+    name: "{{ volume_name }}"
+
+- name: Déployer l'agent Edge
+  community.general.docker_container:
+    name: "{{ container_name }}"
+    image: "{{ image_name }}"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/docker/volumes:/var/lib/docker/volumes"
+      - "/:/host"
+      - "{{ volume_name }}:/data"
+    restart_policy: "{{ restart_policy }}"

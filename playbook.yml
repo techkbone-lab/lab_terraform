@@ -1,0 +1,8 @@
+---
+  - name: Infra Deploy Proxmox
+    hosts: all
+    gather_facts: true
+    become: true
+
+    roles: 
+    - infra

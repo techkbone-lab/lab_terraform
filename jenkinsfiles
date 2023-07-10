@@ -1,0 +1,67 @@
+pipeline {
+    agent {
+        label 'pve'
+    }
+
+    // parameters{
+    //     choice(name: 'OS', choices: ['','linux','windows'], description: 'Select type of OS')
+    // }
+
+    stages {
+        stage('Préparation') {
+            steps {
+                echo "Préparation de l'environnement Terraform"
+                git branch: env.BRANCH_NAME,
+                credentialsId: 'jenkins-github',
+                url: 'https://github.com/kevinbouchard6/aws.git'
+            }
+        }
+        stage('Déploiement') {
+            steps {
+                echo 'Exécution de Terraform'
+                sh """
+                set +x
+                terraform init
+                terraform apply --auto-approve
+                set -x
+                """
+            }
+        }
+        // stage('List all files') {
+        //     steps {
+        //         echo 'List all files'
+        //         sh """
+        //         set +x
+        //         echo ---------------------------------------------
+        //         ls -al 
+        //         echo ---------------------------------------------
+        //         set -x
+        //         """
+        //     }
+        // }
+        stage('Waiting deployement CloudInit') {
+            steps {
+                echo 'Start delay for booting linux'
+                sh 'sleep 180'
+            }
+        }
+                stage('Deploy Infra with Ansible') {
+            steps {
+                script {
+                    sh """
+                    ansible-playbook playbook.yml --ssh-common-args='-o StrictHostKeyChecking=no' -i hosts.ini
+                    """
+                    }
+                }
+            }
+    }
+    post {
+        always {
+            echo 'Workspace cleanup'
+            deleteDir()
+        }
+
+    }
+
+
+}
